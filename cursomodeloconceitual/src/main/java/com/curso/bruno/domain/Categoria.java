@@ -16,14 +16,19 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 
-	public Integer getId() {
-		return id;
+	
+	public  Categoria() {	
 	}
-
+	
+	
 	public Categoria(Integer id, String nome) {
 
 		this.id = id;
 		this.nome = nome;
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 
 	public void setId(Integer id) {
