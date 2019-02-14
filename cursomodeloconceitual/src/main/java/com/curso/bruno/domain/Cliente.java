@@ -12,11 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.curso.bruno.domain.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Cliente implements Serializable {
@@ -27,25 +26,28 @@ public class Cliente implements Serializable {
 	private Integer id;
 	private String nome;
 	private String email;
-	private String cpfOUCNPJ;
+	private String cpfOuCnpj;
 	private Integer tipo;
-	
-	@ElementCollection
-	@CollectionTable(name ="TELEFONE")
-	private Set<String> telefone = new HashSet<>();
-	
-	@OneToMany(mappedBy="cliente")
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
+	@ElementCollection
+	@CollectionTable(name = "TELEFONE")
+	private Set<String> telefones = new HashSet<>();
+
 	public Cliente() {
+
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOUCNPJ, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.cpfOUCNPJ = cpfOUCNPJ;
+		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = tipo.getCod();
 	}
 
@@ -73,12 +75,13 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	public String getCpfOUCNPJ() {
-		return cpfOUCNPJ;
+	public String getCpfOuCnpj() {
+		return cpfOuCnpj;
+
 	}
 
-	public void setCpfOUCNPJ(String cpfOUCNPJ) {
-		this.cpfOUCNPJ = cpfOUCNPJ;
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public TipoCliente getTipo() {
@@ -89,45 +92,71 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCod();
 	}
 
-	public Set<String> getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(Set<String> telefone) {
-		this.telefone = telefone;
-	}
-
 	public List<Endereco> getEnderecos() {
 		return enderecos;
+
 	}
 
 	public void setEnderecos(List<Endereco> enderecos) {
+
 		this.enderecos = enderecos;
+
+	}
+
+	public Set<String> getTelefones() {
+
+		return telefones;
+
+	}
+
+	public void setTelefones(Set<String> telefones) {
+
+		this.telefones = telefones;
+
 	}
 
 	@Override
 	public int hashCode() {
+
 		final int prime = 31;
+
 		int result = 1;
+
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+
 		return result;
+
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+
 		if (this == obj)
+
 			return true;
+
 		if (obj == null)
+
 			return false;
+
 		if (getClass() != obj.getClass())
+
 			return false;
+
 		Cliente other = (Cliente) obj;
+
 		if (id == null) {
+
 			if (other.id != null)
+
 				return false;
+
 		} else if (!id.equals(other.id))
+
 			return false;
+
 		return true;
+
 	}
 
 }
