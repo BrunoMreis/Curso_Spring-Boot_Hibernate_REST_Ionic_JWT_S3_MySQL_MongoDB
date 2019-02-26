@@ -1,55 +1,50 @@
 package com.curso.bruno.domain.enums;
 
 public enum EstadoPagamento {
-	
-	PENDENTE(1,"Pendente"),
-	QUITADO(2,"Quitado"),
-	CANCELADO(3,"Cancelado");
-	
-	
-	private Integer cod;
-	private String estado;
-	
-	
-	private EstadoPagamento(Integer cod, String estado) {
-		this.setCod(cod);
-		this.setEstado(estado);
-	}
 
+	PENDENTE(1, "Pendente"),
 
-	public Integer getCod() {
-		return cod;
-	}
+	QUITADO(2, "Quitado"),
 
+	CANCELADO(3, "Cancelado");
 
-	public void setCod(Integer cod) {
+	private int cod;
+
+	private String descricao;
+
+	private EstadoPagamento(int cod, String descricao) {
+
 		this.cod = cod;
+
+		this.descricao = descricao;
+
 	}
 
+	public int getCod() {
 
+		return cod;
 
-	public String getEstado() {
-		return estado;
 	}
 
+	public String getDescricao() {
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+		return descricao;
+
 	}
 
-	public static EstadoPagamento toEnum(Integer id) {
+	public static EstadoPagamento toEnum(Integer cod) {
 
-		if (id == null) {
+		if (cod == null) {
+
 			return null;
 		}
-
 		for (EstadoPagamento x : EstadoPagamento.values()) {
-			if (id.equals(x.getCod())) {
+			if (cod.equals(x.getCod())) {
 				return x;
 			}
-
 		}
-		throw new IllegalArgumentException("Id inválido " + id);
+
+		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
-	
+
 }

@@ -11,36 +11,34 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private Date instante;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date instate;
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+	private Pagamento pagamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
 	@ManyToOne
-	@JoinColumn(name = "endereco_de_entrega_id")
+	@JoinColumn(name = "endereco_de_id")
 	private Endereco enderecoDeEntrega;
-	
-//	private List<Produto> itens = new ArrayList<>();
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private Pagamento pagamento;
+	public Pedido() {
+	}
 
-	public Pedido(Integer id, Date instate, Cliente cliente, Endereco enderecoDeEntrega) {
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
+		super();
 		this.id = id;
-		this.instate = instate;
+		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
@@ -51,14 +49,25 @@ public class Pedido implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+
 	}
 
-	public Date getInstate() {
-		return instate;
+	public Date getInstante() {
+		return instante;
+
 	}
 
-	public void setInstate(Date instate) {
-		this.instate = instate;
+	public void setInstante(Date instante) {
+		this.instante = instante;
+	}
+
+	public Pagamento getPagamento() {
+		return pagamento;
+
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
 	}
 
 	public Cliente getCliente() {
@@ -77,22 +86,6 @@ public class Pedido implements Serializable {
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
-//	public List<Produto> getItens() {
-//		return itens;
-//	}
-//
-//	public void setItens(List<Produto> itens) {
-//		this.itens = itens;
-//	}
-
-	public Pagamento getPagamento() {
-		return pagamento;
-	}
-
-	public void setPagamento(Pagamento pagamento) {
-		this.pagamento = pagamento;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,10 +98,15 @@ public class Pedido implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
+
 		if (obj == null)
+
 			return false;
+
 		if (getClass() != obj.getClass())
+
 			return false;
+
 		Pedido other = (Pedido) obj;
 		if (id == null) {
 			if (other.id != null)
@@ -116,6 +114,7 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+
 	}
 
 }

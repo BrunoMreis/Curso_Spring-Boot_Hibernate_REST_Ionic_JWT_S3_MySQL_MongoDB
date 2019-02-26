@@ -13,6 +13,7 @@ import com.curso.bruno.domain.Cidade;
 import com.curso.bruno.domain.Cliente;
 import com.curso.bruno.domain.Endereco;
 import com.curso.bruno.domain.Estado;
+import com.curso.bruno.domain.Pagamento;
 import com.curso.bruno.domain.PagamentoComBoleto;
 import com.curso.bruno.domain.PagamentoComCartao;
 import com.curso.bruno.domain.Pedido;
@@ -104,24 +105,20 @@ public class CursomodeloconceitualApplication implements CommandLineRunner {
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		
-		Pedido ped1 = new Pedido(1, sdf.parse("30/09/2017 10:32"), cli1, e1);
-		Pedido ped2 = new Pedido(2, sdf.parse("10/10/2017 19:35"), cli1, e2);
-		
-		
-		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
-		
-		PagamentoComCartao pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
-		PagamentoComBoleto pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
-		
-		
+		 
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+ 
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPagamento(pagto2);
-		
-		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
-		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
-		
+ 
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
+ 
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
 
 	}

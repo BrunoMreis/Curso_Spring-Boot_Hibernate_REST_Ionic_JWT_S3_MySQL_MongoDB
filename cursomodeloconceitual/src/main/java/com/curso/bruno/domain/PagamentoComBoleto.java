@@ -12,10 +12,7 @@ import com.curso.bruno.domain.enums.EstadoPagamento;
 public class PagamentoComBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 	
-	@Temporal(TemporalType.DATE)
 	private Date dataDoVencimento;
-	
-	@Temporal(TemporalType.DATE)
 	private Date dataDoPagamento;
 
 	public PagamentoComBoleto() {

@@ -3,8 +3,6 @@ package com.curso.bruno.domain;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -20,20 +18,20 @@ public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
 	private Integer estado;
 	
-	@MapsId
-	@JoinColumn(name = "pedido_id")
+	
+	@JoinColumn(name="pedido_id")
 	@OneToOne
+	@MapsId
 	private Pedido pedido;
 
 	public Pagamento() {
 	}
 
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
+		super();
 		this.id = id;
 		this.estado = estado.getCod();
 		this.pedido = pedido;

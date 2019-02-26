@@ -31,7 +31,7 @@ public class Produto implements Serializable {
 	inverseJoinColumns = @JoinColumn(name="categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>(); 
 	
-//	private List<Produto> produtos = new ArrayList<>();
+
 	
 	public Produto() {
 	}
@@ -83,16 +83,6 @@ public class Produto implements Serializable {
 		this.categorias = categorias;
 	}
 
-
-//	public List<Produto> getProdutos() {
-//		return produtos;
-//	}
-//
-//
-//	public void setProdutos(List<Produto> produtos) {
-//		this.produtos = produtos;
-//	}
-	
 	
 
 }
