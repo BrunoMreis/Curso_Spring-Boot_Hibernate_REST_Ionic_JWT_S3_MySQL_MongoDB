@@ -1,5 +1,7 @@
 package com.curso.bruno.domain;
 
+
+
 import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
@@ -12,8 +14,9 @@ public class ItemPedido implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@JsonIgnore
+	
 	@EmbeddedId
+	@JsonIgnore
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
 	private Double desconto;
@@ -24,7 +27,6 @@ public class ItemPedido implements Serializable{
 	}
 
 	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
-		super();
 		this.id.setPedido(pedido);
 		this.id.setProduto(produto);
 		this.desconto = desconto;
@@ -35,11 +37,12 @@ public class ItemPedido implements Serializable{
 	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
-	}
-	@JsonIgnore
+	}	
+	
 	public Produto getProduto() {
 		return id.getProduto();
 	}
+	
 	
 	public ItemPedidoPK getId() {
 		return id;

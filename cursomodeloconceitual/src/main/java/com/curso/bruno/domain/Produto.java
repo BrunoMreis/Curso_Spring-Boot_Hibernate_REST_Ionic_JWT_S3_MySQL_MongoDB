@@ -15,44 +15,37 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private Double valor;
-	
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "PRODUTO_CATEGORIA",
-	joinColumns = @JoinColumn(name="produto_id"),
-	inverseJoinColumns = @JoinColumn(name="categoria_id"))
-	private List<Categoria> categorias = new ArrayList<>(); 
-	
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy ="id.produto")
-	private Set <ItemPedido> itens = new HashSet<>();
+	@ManyToMany
+	@JoinTable(
+			name = "PRODUTO_CATEGORIA",
+			joinColumns = @JoinColumn(name = "produto_id"), 
+			inverseJoinColumns = @JoinColumn
+			(name = "categoria_id")
+	)
+	private List<Categoria> categorias = new ArrayList<>();
+
 	
-	public Set<ItemPedido> getItens() {
-		return itens;
-	}
-
-
-	public void setItens(Set<ItemPedido> itens) {
-		this.itens = itens;
-	}
+	@OneToMany(mappedBy = "id.produto")
+	@JsonIgnore
+	private Set<ItemPedido> itens = new HashSet<>();
+	
 
 
 	public Produto() {
 	}
-
 
 	public Produto(Integer id, String nome, Double valor) {
 		this.id = id;
@@ -61,7 +54,16 @@ public class Produto implements Serializable {
 	}
 	
 	@JsonIgnore
-	public List<Pedido> getPedidos(){
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+
+	@JsonIgnore
+	public List<Pedido> getPedidos() {
 		List<Pedido> lista = new ArrayList<>();
 		for (ItemPedido x : itens) {
 			lista.add(x.getPedido());
@@ -69,56 +71,37 @@ public class Produto implements Serializable {
 		return lista;
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
-
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
 	public String getNome() {
 		return nome;
 	}
-
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-
 	public Double getValor() {
 		return valor;
 	}
-
 
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
 
-
 	public List<Categoria> getCategorias() {
 		return categorias;
 	}
-
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
 	}
 
-
-	public Set <ItemPedido> getProdutos() {
-		return itens;
-	}
-
-
-	public void setProdutos(Set <ItemPedido> produtos) {
-		this.itens = produtos;
-	}
-
-	
 
 }

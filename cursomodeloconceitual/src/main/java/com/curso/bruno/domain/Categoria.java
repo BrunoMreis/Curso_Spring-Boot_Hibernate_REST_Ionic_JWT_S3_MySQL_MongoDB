@@ -21,7 +21,7 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 	
-	@JsonManagedReference
+	
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
@@ -30,7 +30,7 @@ public class Categoria implements Serializable {
 	
 	
 	public Categoria(Integer id, String nome) {
-
+		super();
 		this.id = id;
 		this.nome = nome;
 	}
@@ -59,7 +59,8 @@ public class Categoria implements Serializable {
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
-
+	
+	
 	public List<Produto> getProdutos() {
 		return produtos;
 	}

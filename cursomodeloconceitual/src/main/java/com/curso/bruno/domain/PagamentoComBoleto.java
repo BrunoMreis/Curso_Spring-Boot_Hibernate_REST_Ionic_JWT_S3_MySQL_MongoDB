@@ -3,16 +3,18 @@ package com.curso.bruno.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.curso.bruno.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class PagamentoComBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataDoVencimento;
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataDoPagamento;
 
 	public PagamentoComBoleto() {
@@ -24,7 +26,7 @@ public class PagamentoComBoleto extends Pagamento {
 		this.setDataDoVencimento(dataDoVencimento);
 		this.setDataDoPagamento(dataDoPagamento);
 	}
-
+	
 	public Date getDataDoVencimento() {
 		return dataDoVencimento;
 	}
