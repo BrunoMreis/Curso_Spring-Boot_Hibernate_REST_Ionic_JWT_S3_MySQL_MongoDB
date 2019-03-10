@@ -21,5 +21,10 @@ public class CategoriaService {
 				+ Categoria.class.getName()));
 		
 	}
+
+	public Categoria inset(Categoria obj) {
+		obj.setId(null);
+		return repo.save(obj);
+	}
 	
 }
