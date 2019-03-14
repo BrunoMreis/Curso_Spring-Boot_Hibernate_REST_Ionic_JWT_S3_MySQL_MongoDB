@@ -1,5 +1,6 @@
 package com.curso.bruno.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,10 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possivel excluir um categoria que possui produto(s)");
 		}
 		
+	}
+
+	public List<Categoria> findAll() {
+		return repo.findAll();
 	}
 	
 }
