@@ -1,10 +1,17 @@
 package com.curso.bruno.dto;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.curso.bruno.domain.Categoria;
 
 public class CategoriaDTO {
 
 	private Integer id;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 5 , max = 80, message ="Tamanho menor que 5 ou maior que 80 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {
