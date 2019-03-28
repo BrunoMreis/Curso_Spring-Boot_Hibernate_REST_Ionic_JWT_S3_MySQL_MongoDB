@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.curso.bruno.domain.Cliente;
 import com.curso.bruno.dto.ClienteDTO;
+import com.curso.bruno.dto.ClienteNewDTO;
 import com.curso.bruno.services.ClienteService;
 
 
@@ -42,7 +43,7 @@ public class ClienteResource {
 
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> isert(@Valid @RequestBody ClienteDTO objDTO) {
+	public ResponseEntity<Void> isert(@Valid @RequestBody ClienteNewDTO objDTO) {
 		Cliente obj = service.fromDTO(objDTO);
 		obj = service.inset(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
