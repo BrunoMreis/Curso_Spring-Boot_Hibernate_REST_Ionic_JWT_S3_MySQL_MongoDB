@@ -2,16 +2,16 @@ package com.curso.bruno.resource.exeption;
 
 import java.io.Serializable;
 
-public class FildMessage implements Serializable {
+public class FieldMessage implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String nome;
 	private String msg;
 	
-	public FildMessage() {
+	public FieldMessage() {
 	}
 
-	public FildMessage(String nome, String msg) {
+	public FieldMessage(String nome, String msg) {
 		this.nome = nome;
 		this.msg = msg;
 	}

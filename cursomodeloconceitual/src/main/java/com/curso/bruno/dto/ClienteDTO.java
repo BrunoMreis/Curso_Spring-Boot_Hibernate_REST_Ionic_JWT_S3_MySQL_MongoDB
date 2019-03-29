@@ -10,7 +10,7 @@ public class ClienteDTO {
 	private Integer id;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
-	@Length(min = 5, max = 80, message = "Tamanho menor que 5 ou maior que 60 caracteres")
+	@Length(min = 5, max = 120, message = "Tamanho menor que 5 ou maior que 120 caracteres")
 	private String nome;
 
 	@Email(message = "E-mail invalido")
