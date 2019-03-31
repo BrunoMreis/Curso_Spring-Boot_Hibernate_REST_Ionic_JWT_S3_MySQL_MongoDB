@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.curso.bruno.validator.ClienteInsert;
+import com.curso.bruno.validator.ClienteUpdate;
 
 @ClienteInsert
 public class ClienteNewDTO implements Serializable{

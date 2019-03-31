@@ -5,6 +5,10 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.curso.bruno.validator.ClienteUpdate;
+
+
+@ClienteUpdate
 public class ClienteDTO {
 
 	private Integer id;
