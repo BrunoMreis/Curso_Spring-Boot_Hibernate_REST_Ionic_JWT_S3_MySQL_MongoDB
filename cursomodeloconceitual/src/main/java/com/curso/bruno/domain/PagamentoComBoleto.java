@@ -1,13 +1,16 @@
 package com.curso.bruno.domain;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
 
 import com.curso.bruno.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 	
@@ -42,5 +45,6 @@ public class PagamentoComBoleto extends Pagamento {
 	public void setDataDoPagamento(Date dataDoPagamento) {
 		this.dataDoPagamento = dataDoPagamento;
 	}
+
 
 }
