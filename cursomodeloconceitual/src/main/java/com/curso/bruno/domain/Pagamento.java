@@ -64,13 +64,13 @@ public abstract class Pagamento implements Serializable {
 		this.pedido = pedido;
 	}
 
-	public Integer getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Integer estado) {
-		this.estado = estado;
-	}
+//	public Integer getEstado() {
+//		return estado;
+//	}
+//
+//	public void setEstado(Integer estado) {
+//		this.estado = estado;
+//	}
 
 	@Override
 	public int hashCode() {
