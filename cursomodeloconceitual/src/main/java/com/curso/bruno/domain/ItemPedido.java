@@ -115,7 +115,6 @@ public class ItemPedido implements Serializable {
 	@Override
 	public String toString() {
 		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyy HH:mm:ss");
 		StringBuilder builder = new StringBuilder();
 		builder.append(getProduto().getNome());
 		builder.append(", Quantidade: " + getQuantidade());
