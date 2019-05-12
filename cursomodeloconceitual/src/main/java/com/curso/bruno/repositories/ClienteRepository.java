@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.curso.bruno.domain.Cliente;
-import com.curso.bruno.dto.ClienteNewDTO;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.curso.bruno.domain.Cliente;
 import com.curso.bruno.domain.Pedido;
-import com.curso.bruno.dto.ClienteNewDTO;
 import com.curso.bruno.services.PedidoService;
 
 @RestController

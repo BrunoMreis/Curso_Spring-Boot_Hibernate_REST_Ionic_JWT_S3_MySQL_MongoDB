@@ -55,7 +55,7 @@ public class PedidoService {
 		obj.setId(null);
 		obj.setInstante(new Date());
 		obj.setCliente(clienteService.find(obj.getCliente().getId()));
-		obj.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
+		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto) {
 			PagamentoComBoleto pagamentoComBoleto = (PagamentoComBoleto) obj.getPagamento();
@@ -75,7 +75,8 @@ public class PedidoService {
 		itemPedidoRepository.saveAll(obj.getItens());
 		System.out.println(obj);
 		//emailService.senderOrderConfirmationEmail(obj);
-		smtpEmailService.senderOrderConfirmationEmail(obj);
+		//smtpEmailService.senderOrderConfirmationEmail();
+		smtpEmailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
 	
