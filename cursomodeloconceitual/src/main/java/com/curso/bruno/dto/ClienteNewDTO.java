@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.curso.bruno.validator.ClienteInsert;
-import com.curso.bruno.validator.ClienteUpdate;
 
 @ClienteInsert
 public class ClienteNewDTO implements Serializable{
@@ -26,6 +25,9 @@ public class ClienteNewDTO implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipo;
 	
+	@NotEmpty(message = "Preenchimento obrigatório")
+	private String senha;
+
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String logradouro;
 	
@@ -53,7 +55,7 @@ public class ClienteNewDTO implements Serializable{
 
 	public ClienteNewDTO(String nome, String email, String cpfOuCnpj, Integer tipo, String logradouro, String numero,
 			String complemento, String bairro, String cep, String telefone1, String telefone2, String telefone3,
-			Integer cidadeID) {
+			Integer cidadeID, String senha) {
 		super();
 		this.nome = nome;
 		this.email = email;
@@ -68,6 +70,7 @@ public class ClienteNewDTO implements Serializable{
 		this.telefone2 = telefone2;
 		this.telefone3 = telefone3;
 		this.cidadeID = cidadeID;
+		this.senha = senha;
 	}
 
 	public String getNome() {
@@ -172,6 +175,14 @@ public class ClienteNewDTO implements Serializable{
 
 	public void setCidadeID(Integer cidadeID) {
 		this.cidadeID = cidadeID;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	
 	
