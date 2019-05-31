@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import com.curso.bruno.domain.Cidade;
 import com.curso.bruno.domain.Cliente;
 import com.curso.bruno.domain.Endereco;
+import com.curso.bruno.domain.enums.Perfil;
 import com.curso.bruno.domain.enums.TipoCliente;
 import com.curso.bruno.dto.ClienteDTO;
 import com.curso.bruno.dto.ClienteNewDTO;
 import com.curso.bruno.repositories.ClienteRepository;
 import com.curso.bruno.repositories.EnderecoRepository;
+import com.curso.bruno.security.UserSS;
+import com.curso.bruno.services.exeption.AuthorizationException;
 import com.curso.bruno.services.exeption.DataIntegrityException;
 import com.curso.bruno.services.exeption.ObjectNotFoundException;
 
@@ -37,6 +40,13 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 
 	public Cliente find(Integer id) {
+		 
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
