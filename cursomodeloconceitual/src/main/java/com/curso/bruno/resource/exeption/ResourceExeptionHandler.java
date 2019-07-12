@@ -47,7 +47,7 @@ public class ResourceExeptionHandler {
 	}
 	
 	@ExceptionHandler(AuthorizationException.class)
-	public ResponseEntity<StandardError> objectNotFound(AuthorizationException e, HttpServletRequest request){
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request){
 		StandardError err = new StandardError(System.currentTimeMillis(),HttpStatus.FORBIDDEN.value(),"Acesso Negado", e.getMessage(), request.getRequestURI());
 		
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
@@ -77,7 +77,7 @@ public class ResourceExeptionHandler {
 		@ExceptionHandler(AmazonS3Exception.class)
 		public ResponseEntity<StandardError> amazonS3Exception(AmazonS3Exception e, HttpServletRequest request){
 			
-			StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Erro S3", e.getMessage(), request.getRequestURI());
+			StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Erro Amazon S3", e.getMessage(), request.getRequestURI());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 		}
 }
