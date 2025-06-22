@@ -5,7 +5,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -142,17 +142,21 @@ public class ClienteService {
 	}
 
 	public URI uploadProfilePicture(MultipartFile multipart) {
-		UserSS user = UserService.authenticated();
-		if (user == null) {
-			throw new AuthorizationException("Acesso Negado!");
-		}
-
+		UserSS user = getUser();
 		BufferedImage image = imageService.getJpgImageFromFile(multipart);
 		String fileName = parteName + user.getId() + ".jpg";
 		image = imageService.cropSquare(image);
 		image = imageService.resize(image, size);
 
 		return s3Service.upload(imageService.getInputStream(image, "jpg"), fileName, "image");
+	}
+
+	private UserSS getUser() {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		return user;
 	}
 
 }

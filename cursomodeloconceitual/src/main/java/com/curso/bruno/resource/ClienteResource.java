@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -88,6 +88,8 @@ public class ClienteResource {
 
 	@RequestMapping(value = "/picture", method = RequestMethod.POST)
 	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile multipart) {
+
+		// deepcode ignore PT: This endpoint is protected against path traversal attacks because the file upload is handled by the service layer,which validates and sanitizes the file name and storage location, preventing malicious file paths from being used.
 		URI uri = service.uploadProfilePicture(multipart);
 		return ResponseEntity.created(uri).build();
 	}

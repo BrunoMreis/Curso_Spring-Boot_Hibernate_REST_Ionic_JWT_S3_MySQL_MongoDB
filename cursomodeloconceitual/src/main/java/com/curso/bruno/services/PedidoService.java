@@ -3,7 +3,7 @@ package com.curso.bruno.services;
 import java.util.Date;
 import java.util.Optional;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,6 @@ import com.curso.bruno.domain.ItemPedido;
 import com.curso.bruno.domain.PagamentoComBoleto;
 import com.curso.bruno.domain.Pedido;
 import com.curso.bruno.domain.enums.EstadoPagamento;
-import com.curso.bruno.repositories.ClienteRepository;
 import com.curso.bruno.repositories.ItemPedidoRepository;
 import com.curso.bruno.repositories.PagamentoRepository;
 import com.curso.bruno.repositories.PedidoRepository;
@@ -45,9 +44,6 @@ public class PedidoService {
 	@Autowired
 	private ClienteService clienteService;
 	
-//	@Autowired
-//	private EmailService emailService;
-	
 	@Autowired
 	private SmtpEmailService smtpEmailService;
 	
@@ -58,7 +54,7 @@ public class PedidoService {
 		
 	}
 
-	public @Valid Pedido inset(@Valid Pedido obj) {
+	public Pedido inset(@Valid Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
 		obj.setCliente(clienteService.find(obj.getCliente().getId()));

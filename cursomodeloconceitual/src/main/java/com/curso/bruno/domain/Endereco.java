@@ -2,17 +2,17 @@ package com.curso.bruno.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
-import javax.persistence.GeneratedValue;
+import jakarta.persistence.GeneratedValue;
 
-import javax.persistence.GenerationType;
+import jakarta.persistence.GenerationType;
 
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 
-import javax.persistence.JoinColumn;
+import jakarta.persistence.JoinColumn;
 
-import javax.persistence.ManyToOne;
+import jakarta.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

@@ -8,15 +8,15 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -147,16 +147,16 @@ public class Pedido implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
-		builder.append("Número do Pedido: " + getId());
-		builder.append(", instante: " + sdf.format(getInstante()));
-		builder.append(", cliente: " + getCliente().getNome());
-		builder.append(", situação do pagamento: " + getPagamento().getEstado().getDescricao());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		builder.append("Número do Pedido: ").append(getId());
+		builder.append(", instante: ").append(sdf.format(getInstante()));
+		builder.append(", cliente: ").append(getCliente().getNome());
+		builder.append(", situação do pagamento: ").append(getPagamento().getEstado().getDescricao());
 		builder.append("\nDetalhes\n");
 		for (ItemPedido ip : getItens()) {
 			builder.append(ip.toString());
 		}
-		builder.append("Valor: " + nf.format(getValorTotal()));
+		builder.append("Valor: ").append(nf.format(getValorTotal()));
 
 		return builder.toString();
 	}

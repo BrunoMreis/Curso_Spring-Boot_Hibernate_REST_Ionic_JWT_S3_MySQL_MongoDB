@@ -44,7 +44,7 @@ public class AuthService {
 		for (int i = 0; i < vet.length; i++) {
 			vet[i] = randonChar();		
 		}
-		return new String(vet);
+		return String.valueOf(vet);
 	}
 
 	private char randonChar() {

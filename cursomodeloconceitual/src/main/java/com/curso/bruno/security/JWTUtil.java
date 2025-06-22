@@ -1,17 +1,25 @@
 package com.curso.bruno.security;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.logging.Logger;
 
+import javax.crypto.SecretKey;
+
+import org.hibernate.internal.log.SubSystemLogging;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.mysql.cj.log.Log;
+
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
+
 
 @Component
 public class JWTUtil {
@@ -23,7 +31,9 @@ public class JWTUtil {
 	private Long expiration;
 
 	public String generateToken(String username) {
-		return Jwts.builder().setSubject(username).setExpiration(new Date(System.currentTimeMillis() + expiration))
+		return Jwts.builder()
+				.setSubject(username)
+				.setExpiration(new Date(System.currentTimeMillis() + expiration))
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
 	}
 
@@ -41,9 +51,14 @@ public class JWTUtil {
 	}
 
 	private Claims getClaims(String token) {
-
 		try {
-			return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
+			SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+			JwtParserBuilder parser = Jwts.parser();
+			JwtParserBuilder verifyWith = parser.verifyWith(key);
+			JwtParser jwtParser = verifyWith.build();
+			Jws<Claims> signedClaims = jwtParser.parseSignedClaims(token);
+			Claims payloadClaims = signedClaims.getPayload();
+			return payloadClaims;
 		} catch (Exception e) {
 			return null;
 		}

@@ -2,8 +2,8 @@ package com.curso.bruno.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 public class EmailDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
