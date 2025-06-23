@@ -2,7 +2,7 @@ package com.curso.bruno.domain;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 import com.curso.bruno.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -20,23 +20,31 @@ import com.curso.bruno.services.exeption.FileException;
 public class ImageService {
 
 	public BufferedImage getJpgImageFromFile(MultipartFile uploadedFile) {
-		String ext = FilenameUtils.getExtension(uploadedFile.getOriginalFilename());
-		if (!"png".equals(ext) && !"jpg".equals(ext)) {
-			throw new FileException("Somente JPG OU PNG");
-		}
+		String extension = getImageExtension(uploadedFile);
+		validateImageExtension(extension);
 
 		try {
 			BufferedImage image = ImageIO.read(uploadedFile.getInputStream());
-			if ("png".equals(ext)) {
+			if ("png".equals(extension)) {
 				image = pngTojpg(image);
 			}
-
 			return image;
 
 		} catch (IOException e) {
 			throw new FileException("Erro ao ler arquivo");
 		}
 
+	}
+
+	private String getImageExtension(MultipartFile uploadedFile) {
+		String extension = FilenameUtils.getExtension(uploadedFile.getOriginalFilename());
+		return extension;
+	}
+
+	private void validateImageExtension(String extension) {
+		if (!"png".equals(extension) && !"jpg".equals(extension)) {
+			throw new FileException("Somente JPG OU PNG");
+		}
 	}
 
 	public BufferedImage pngTojpg(BufferedImage image) {

@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
-import javax.persistence.GeneratedValue;
+import jakarta.persistence.GeneratedValue;
 
-import javax.persistence.GenerationType;
+import jakarta.persistence.GenerationType;
 
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 
-import javax.persistence.OneToMany;
+import jakarta.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
