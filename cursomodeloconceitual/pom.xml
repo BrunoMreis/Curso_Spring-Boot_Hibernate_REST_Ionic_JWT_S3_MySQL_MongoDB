@@ -16,7 +16,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.3</version>
-		<relativePath />
+		<relativePath/>
 	</parent>
 
 
@@ -99,7 +99,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
-			<version>1.12.787</version>
+			<version>1.12.792</version>
 		</dependency>
 
 		<dependency>
