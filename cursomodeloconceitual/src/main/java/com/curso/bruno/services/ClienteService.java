@@ -34,26 +34,34 @@ import com.curso.bruno.services.exeption.ObjectNotFoundException;
 @Service
 public class ClienteService {
 
-	@Autowired
-	private ClienteRepository repo;
-
-	@Autowired
-	private BCryptPasswordEncoder pe;
-
-	@Autowired
+	private ClienteRepository clienteRepository;
+	private BCryptPasswordEncoder bCryptPwdEnconder;
 	private EnderecoRepository enderecoRepository;
-
-	@Autowired
 	private S3Service s3Service;
-
-	@Autowired
 	private ImageService imageService;
-
-	@Value("${img.prefix.client.profile}")
 	private String parteName;
-
-	@Value("${img.profile.size}")
 	private Integer size;
+
+
+
+	public ClienteService(
+		@Autowired ClienteRepository clienteRepository,
+		@Autowired BCryptPasswordEncoder bCryptPwdEnconder,
+		@Autowired EnderecoRepository enderecoRepository, 
+		@Autowired S3Service s3Service, 
+		@Autowired ImageService imageService, 
+		@Value("${img.prefix.client.profile}") String parteName,
+		@Value("${img.profile.size}")Integer size
+			) {
+		this.clienteRepository = clienteRepository;
+		this.bCryptPwdEnconder = bCryptPwdEnconder;
+		this.enderecoRepository = enderecoRepository;
+		this.s3Service = s3Service;
+		this.imageService = imageService;
+		this.parteName = parteName;
+		this.size = size;
+	}
+
 
 	public Cliente find(Integer id) {
 
@@ -62,7 +70,7 @@ public class ClienteService {
 			throw new AuthorizationException("Acesso Negado!");
 		}
 
-		Optional<Cliente> obj = repo.findById(id);
+		Optional<Cliente> obj = clienteRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
@@ -70,7 +78,7 @@ public class ClienteService {
 	@Transactional
 	public Cliente inset(Cliente obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		obj = clienteRepository.save(obj);
 		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
 	}
@@ -78,14 +86,14 @@ public class ClienteService {
 	public Cliente update(Cliente obj) {
 		Cliente newObj = find(obj.getId());
 		update(newObj, obj);
-		return repo.save(newObj);
+		return clienteRepository.save(newObj);
 	}
 
 	public void delete(Integer id) {
 		find(id);
 
 		try {
-			repo.deleteById(id);
+			clienteRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possivel excluir um cliente que possui pedido(s)!");
 		}
@@ -93,7 +101,7 @@ public class ClienteService {
 	}
 
 	public List<Cliente> findAll() {
-		return repo.findAll();
+		return clienteRepository.findAll();
 	}
 
 	public Cliente findByEmail(String email) {
@@ -101,7 +109,7 @@ public class ClienteService {
 		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
 			throw new AuthorizationException("Acesso Negado!");
 		}
-		Cliente obj = repo.findByEmail(email);
+		Cliente obj = clienteRepository.findByEmail(email);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Objeto não em contrado! ID: " + user.getId() + ", Tipo: " + Cliente.class.getName());
@@ -111,7 +119,7 @@ public class ClienteService {
 
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return clienteRepository.findAll(pageRequest);
 	}
 
 	public Cliente fromDTO(ClienteDTO objDTO) {
@@ -120,7 +128,7 @@ public class ClienteService {
 
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
 		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(),
-				TipoCliente.toEnum(objDTO.getTipo()), pe.encode(objDTO.getSenha()));
+				TipoCliente.toEnum(objDTO.getTipo()), bCryptPwdEnconder.encode(objDTO.getSenha()));
 		Cidade cid = new Cidade(objDTO.getCidadeID(), null, null);
 		Endereco ende = new Endereco(null, objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(),
 				objDTO.getBairro(), objDTO.getCep(), cli, cid);

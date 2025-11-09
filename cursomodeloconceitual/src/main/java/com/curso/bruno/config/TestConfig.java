@@ -8,24 +8,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.curso.bruno.services.DBService;
-import com.curso.bruno.services.EmailService;
-import com.curso.bruno.services.MockEmailService;
 
 @Configuration
 @Profile("test")
 public class TestConfig {
-	@Autowired
+	
 	private DBService dbSERVICE;
 	
+	
+	public TestConfig(@Autowired DBService dbSERVICE) {
+		this.dbSERVICE = dbSERVICE;
+	}
+	
 	@Bean
-	public boolean instantiateDatebase() throws java.text.ParseException  {
+	boolean instantiateDatebase() throws java.text.ParseException  {
 		dbSERVICE.instantiateTestDatabase();
 		return true;
 	}
 	
-	@Bean
-	public EmailService emailService() {
-			return new MockEmailService();
-	}
-	
+
 }

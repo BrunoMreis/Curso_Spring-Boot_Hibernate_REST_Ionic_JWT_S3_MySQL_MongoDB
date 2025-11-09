@@ -1,3 +1,4 @@
+// java
 package com.curso.bruno.config;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,35 +26,31 @@ import com.curso.bruno.security.JWTAuthenticationFilter;
 import com.curso.bruno.security.JWTAuthorizationFilter;
 import com.curso.bruno.security.JWTUtil;
 
+import jakarta.annotation.PostConstruct;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    @Autowired
     private Environment env;
 
-    @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
     private JWTUtil jwtUtil;
 
-    private static final String[] PUBLIC_MATCHER = {
-            "/h2-console/**"
-    };
-    private static final String[] PUBLIC_MATCHER_GET = {
-            "/produtos/**",
-            "/categorias/**",
-            "/estados/**"
-    };
-    private static final String[] PUBLIC_MATCHER_POST = {
-            "/clientes",
-            "/auth/forgot/**"
-    };
+    public SecurityConfig(Environment env, UserDetailsService userDetailsService, JWTUtil jwtUtil) {
+		this.env = env;
+		this.userDetailsService = userDetailsService;
+		this.jwtUtil = jwtUtil;
+	}
+
+    private static final String[] PUBLIC_MATCHER = { "/h2-console/**" };
+    private static final String[] PUBLIC_MATCHER_GET = { "/produtos/**", "/categorias/**", "/estados/**" };
+    private static final String[] PUBLIC_MATCHER_POST = { "/clientes", "/auth/forgot/**" };
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
 
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
@@ -69,17 +67,16 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             );
 
-		http.addFilter(new JWTAuthenticationFilter(authenticationManager(http), jwtUtil));
-		http.addFilter(new JWTAuthorizationFilter(authenticationManager(http), jwtUtil, userDetailsService));
+        http.addFilter(new JWTAuthenticationFilter(authManager, jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authManager, jwtUtil, userDetailsService));
 
         return http.build();
     }
 
+   
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-		AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-		builder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-		return builder.build();
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -91,8 +88,10 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Autowired
+    public void configure(AuthenticationManagerBuilder auth, BCryptPasswordEncoder bCryptPwdEncoder) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPwdEncoder);
     }
+
+  
 }

@@ -15,14 +15,17 @@ import com.curso.bruno.services.SmtpEmailService;
 @Profile("dev")
 public class DevConfig {
 	
-	@Autowired
 	private DBService dbSERVICE;
 	
-	@Value("${spring.jpa.hibernate.ddl-auto}")
 	protected String strategy;
 	
+	public DevConfig(@Autowired DBService dbSERVICE, @Value("${spring.jpa.hibernate.ddl-auto}") String strategy) {
+		this.dbSERVICE = dbSERVICE;
+		this.strategy = strategy;
+	}
+	
 	@Bean
-	public boolean instantiateDatebase() throws ParseException  {
+	boolean instantiateDatebase() throws ParseException  {
 		
 //		if(!"creat".equals(strategy)) {
 //			return false;
@@ -33,7 +36,7 @@ public class DevConfig {
 	}
 	
 	@Bean
-	public SmtpEmailService emailService() {
+	SmtpEmailService emailService() {
 			return new SmtpEmailService();
 	}
 
