@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,36 +35,39 @@ import com.curso.bruno.repositories.ProdutoRepository;
 @Service
 public class DBService {
 
-	@Autowired
+
 	private CategoriaRepository categoriaRepository;
-
-	@Autowired
 	private ProdutoRepository produtoRepository;
-
-	@Autowired
 	private EstadoRepository estadoRepository;
-
-	@Autowired
 	private CidadeRepository cidadeRepository;
-
-	@Autowired
 	private ClienteRepository clienteRepository;
-
-	@Autowired
 	private EnderecoRepository enderecoRepository;
-
-	@Autowired
 	private PedidoRepository pedidoRepository;
-
-	@Autowired
 	private PagamentoRepository pagamentoRepository;
-
-	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	private BCryptPasswordEncoder bCryptPwdEncoder;
 
-	@Autowired
-	private BCryptPasswordEncoder pe;
-
+	
+	
+	public DBService(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository,
+			EstadoRepository estadoRepository, CidadeRepository cidadeRepository, ClienteRepository clienteRepository,
+			EnderecoRepository enderecoRepository, PedidoRepository pedidoRepository,
+			PagamentoRepository pagamentoRepository, ItemPedidoRepository itemPedidoRepository,
+	  @Lazy BCryptPasswordEncoder bCryptPwdEncoder) {
+		this.categoriaRepository = categoriaRepository;
+		this.produtoRepository = produtoRepository;
+		this.estadoRepository = estadoRepository;
+		this.cidadeRepository = cidadeRepository;
+		this.clienteRepository = clienteRepository;
+		this.enderecoRepository = enderecoRepository;
+		this.pedidoRepository = pedidoRepository;
+		this.pagamentoRepository = pagamentoRepository;
+		this.itemPedidoRepository = itemPedidoRepository;
+		this.bCryptPwdEncoder = bCryptPwdEncoder;
+	}
+	
+	
+	
 	public void instantiateTestDatabase() throws ParseException {
 
 		Categoria cat1 = new Categoria(null, "Informática");
@@ -212,11 +215,11 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "estudo076@gmail.com", "36378912377", TipoCliente.PESSOAFISICA,
-				pe.encode("1234"));
+				bCryptPwdEncoder.encode("1234"));
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 
 		Cliente cli2 = new Cliente(null, "Ana Paula", "123456789123@hotmail.com", "47375597847",
-				TipoCliente.PESSOAFISICA, pe.encode("1234"));
+				TipoCliente.PESSOAFISICA, bCryptPwdEncoder.encode("1234"));
 		cli2.addPerfil(Perfil.ADMIN);
 		cli2.getTelefones().addAll(Arrays.asList("1132323131", "11954546464"));
 
