@@ -242,3 +242,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 # End of https://www.toptal.com/developers/gitignore/api/ionic3
+.vscode/settings.json
